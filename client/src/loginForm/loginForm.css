@@ -1,0 +1,176 @@
+:root {
+  --border-radius-default: 10px;
+  --border-radius-button: 20px;
+  --spacing-default: 20px;
+  --spacing-large: 30px;
+  --spacing-xlarge: 50px;
+  --container-width-small: 400px;
+  --container-width-medium: 600px;
+}
+
+/* 로그인 및 회원가입 컨테이너 공통 스타일 */
+.login-container,
+.signup-container {
+  margin: var(--spacing-xlarge) auto;
+  padding: var(--spacing-default);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--border-radius-default);
+  box-shadow: var(--shadow-medium);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition:
+    background-color var(--transition-duration) var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing);
+}
+
+.login-container {
+  max-width: var(--container-width-small);
+}
+
+.signup-container {
+  max-width: var(--container-width-medium);
+}
+
+/* 제목 스타일 */
+.login-container h2,
+.signup-container h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-large);
+}
+
+/* 입력 필드 스타일 */
+.form-group input {
+  border-radius: var(--border-radius-default);
+}
+
+/* 기본 버튼 스타일 */
+.btn-primary {
+  border-radius: var(--border-radius-button);
+  width: 100%;
+}
+
+/* 전체 너비 보조 버튼 */
+.btn-secondary.full-width {
+  width: 100%;
+}
+
+/* ============================================
+   다크 모드 명시적 오버라이드
+   ============================================ */
+
+[data-theme='dark'] .login-container,
+[data-theme='dark'] .signup-container {
+  background-color: var(--bg-primary);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-medium);
+}
+
+[data-theme='dark'] .login-container h2,
+[data-theme='dark'] .signup-container h2 {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .login-container label,
+[data-theme='dark'] .signup-container label {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .login-container .form-control,
+[data-theme='dark'] .signup-container .form-control {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .login-container .form-control:focus,
+[data-theme='dark'] .signup-container .form-control:focus {
+  background-color: var(--bg-tertiary);
+  border-color: var(--color-primary);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .login-container .form-control::placeholder,
+[data-theme='dark'] .signup-container .form-control::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+[data-theme='dark'] .login-container .form-text,
+[data-theme='dark'] .signup-container .form-text {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme='dark'] .login-container small.form-text,
+[data-theme='dark'] .signup-container small.form-text,
+[data-theme='dark'] .login-container small.text-muted,
+[data-theme='dark'] .signup-container small.text-muted {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme='dark'] .login-container .text-danger,
+[data-theme='dark'] .signup-container .text-danger {
+  color: var(--color-danger) !important;
+}
+
+[data-theme='dark'] .login-container p,
+[data-theme='dark'] .signup-container p {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .login-container a,
+[data-theme='dark'] .signup-container a {
+  color: var(--color-primary);
+}
+
+[data-theme='dark'] .login-container a:hover,
+[data-theme='dark'] .signup-container a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Privacy Policy Popup Custom Styles */
+.swal2-privacy-popup {
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+/* Light Mode Defaults for Popup */
+html[data-theme='light'] body .swal2-popup.swal2-privacy-popup {
+  background: #ffffff !important;
+  color: #212529 !important;
+}
+
+/* Dark Mode Overrides for Popup */
+html[data-theme='dark'] body .swal2-popup.swal2-privacy-popup {
+  background: #2b3035 !important;
+  color: #dee2e6 !important;
+}
+
+/* Popup Content Scrollbar Styling */
+.swal2-privacy-popup .swal2-html-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.swal2-privacy-popup .swal2-html-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.swal2-privacy-popup .swal2-html-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+html[data-theme='dark']
+  .swal2-privacy-popup
+  .swal2-html-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme='dark']
+  .swal2-privacy-popup
+  .swal2-html-container::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}

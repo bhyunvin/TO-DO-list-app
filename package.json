@@ -1,0 +1,44 @@
+{
+  "name": "my-todo-app",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "src",
+    "client"
+  ],
+  "scripts": {
+    "start": "bun run dev:fast",
+    "start:prod": "bun run nx run-many --target=start:prod --all",
+    "watch": "bun run dev:fast",
+    "dev:fast": "concurrently \"bun run dev:server\" \"bun run dev:client\"",
+    "dev:server": "cd src && bun run dev",
+    "dev:client": "cd client && bun run dev",
+    "build": "bun run nx run-many --target=build --all",
+    "format": "prettier --write \"{src,client}/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint": "bun run nx run-many --target=lint --all",
+    "lint:fix": "bun run nx run-many --target=lint --all -- --fix"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@types/multer": "^2.0.0",
+    "concurrently": "^9.2.1",
+    "nx": "^22.5.0",
+    "prettier": "^3.8.1"
+  },
+  "overrides": {
+    "nth-check": "2.1.1",
+    "tmp": "^0.2.4",
+    "svgo": "^4.0.0",
+    "css-select": "^6.0.0",
+    "glob": ">=11.0.4",
+    "lodash": "4.17.23",
+    "diff": "8.0.3",
+    "baseline-browser-mapping": "^2.9.17"
+  },
+  "resolutions": {
+    "baseline-browser-mapping": "^2.9.17"
+  }
+}

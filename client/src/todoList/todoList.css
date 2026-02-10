@@ -1,0 +1,592 @@
+:root {
+  /* 전역 테마 변수를 로컬 변수에 매핑 */
+  --color-white: var(--bg-primary);
+  --color-border-light: var(--border-light);
+  --color-border-medium: var(--border-medium);
+  --color-border-separator: var(--border-separator);
+  --color-bg-light: var(--bg-secondary);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-completed: var(--bg-completed);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-danger: var(--color-danger);
+  --color-danger-dark: var(--color-danger-dark);
+
+  /* 레이아웃 및 스타일 변수 (테마 독립적) */
+  --border-radius-default: 8px;
+  --border-radius-small: 4px;
+  --border-radius-medium: 0.375rem;
+  --border-radius-circle: 50%;
+  --box-shadow-light: var(--shadow-light);
+  --box-shadow-medium: var(--shadow-medium);
+  --box-shadow-dropdown: var(--shadow-dropdown);
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 40px;
+  --container-max-width: 800px;
+  --table-min-width-mobile: 600px;
+  --table-min-width-small: 650px;
+  --transition-fast: 0.15s ease-in-out;
+  --transition-default: 0.2s ease;
+}
+
+/* 전체 TODO 컨테이너 */
+.todo-container {
+  max-width: none;
+  margin: 0;
+  padding: var(--spacing-xl);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: var(--color-white);
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+
+  /* Firefox 대응 */
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent;
+}
+
+/* 스크롤바 커스텀 스타일 (Webkit) */
+.todo-container::-webkit-scrollbar,
+.search-result-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.todo-container::-webkit-scrollbar-thumb,
+.search-result-container::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 10px;
+}
+
+.todo-container::-webkit-scrollbar-track,
+.search-result-container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.todo-container > * {
+  overflow: visible;
+}
+
+/* 제목을 위한 헤더: 중앙 정렬 */
+.todo-title-header {
+  text-align: center;
+  margin-bottom: 0;
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-separator);
+  color: var(--color-text-primary);
+}
+
+.todo-title-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+/* 사용자 정보를 위한 헤더: 우측 정렬 */
+.user-info-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* 사용자 메뉴 컨테이너 */
+.user-menu-container {
+  position: relative;
+}
+
+/* 사용자 메뉴 아이콘 버튼 */
+.user-menu-icon {
+  background: none;
+  border: none;
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+  border-radius: var(--border-radius-circle);
+  transition: all var(--transition-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-menu-icon:hover {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-secondary);
+  transform: scale(1.1);
+}
+
+.user-menu-icon:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 사용자 드롭다운 메뉴 */
+.user-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow-dropdown);
+  z-index: 1000;
+  min-width: 200px;
+  padding: 0.5rem 0;
+  margin-top: 0.125rem;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+/* 드롭다운 구분선 */
+.user-dropdown-menu .dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border-separator);
+}
+
+/* 드롭다운 메뉴 항목 */
+.user-dropdown-menu .dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.user-dropdown-menu .dropdown-item:hover,
+.user-dropdown-menu .dropdown-item:focus {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.user-dropdown-menu .dropdown-item:disabled {
+  color: var(--color-text-muted);
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* 드롭다운 애니메이션 */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 신규, 수정, 삭제 버튼 그룹 */
+.todo-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* todo-actions 내부의 버튼들이 불필요하게 늘어나는 것을 방지 */
+.todo-actions .btn {
+  width: auto;
+  flex-grow: 0;
+  min-width: 80px;
+}
+
+/* 날짜 선택 입력창 래퍼 */
+.date-picker-wrapper {
+  flex: 1;
+}
+
+.date-picker-wrapper .react-datepicker-wrapper,
+.date-picker-wrapper .react-datepicker__input-container {
+  width: 100%;
+  display: block;
+}
+
+/* 날짜 구분자 스타일 */
+.date-separator {
+  padding: 0 0.5rem; /* 좌우 여백 확보 (gap 대체) */
+  text-align: center;
+  transform: translateY(-2px); /* 시각적 중앙 정렬 보정 (살짝 위로) */
+}
+
+/* 모바일 뷰(576px 미만)에서 첫 번째 날짜 입력창에만 하단 여백 부여 */
+@media (max-width: 575.98px) {
+  .date-picker-wrapper:first-child {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* 날짜 네비게이터 컨테이너 */
+.date-navigator {
+  position: relative; /* 자식 요소 절대 위치 기준점 */
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border-separator);
+}
+
+/* 날짜 컨트롤 그룹 (이전, 날짜, 다음) */
+.date-controls {
+  position: relative; /* 자식 absolute 배치를 위한 기준점 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Today 버튼 - PC에서는 날짜 그룹 우측에 절대 배치 */
+.date-today-btn {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 15px;
+  background: none;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-small);
+  padding: 5px var(--spacing-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  transition: background-color var(--transition-default);
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+/* 모바일 화면 대응 */
+@media (max-width: 576px) {
+  .date-navigator {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .date-today-btn {
+    position: static;
+    transform: none;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+}
+
+/* 이전/다음 날짜 이동 버튼 */
+.date-nav-btn {
+  background: none;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--border-radius-circle);
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  transition: background-color var(--transition-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.date-nav-btn:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.date-nav-btn i {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.date-today-btn:hover {
+  background-color: var(--color-bg-hover);
+}
+
+/* DatePicker의 input을 텍스트처럼 보이게 스타일링 */
+.date-display {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  width: 130px;
+  color: var(--color-text-primary);
+}
+
+/* DatePicker 래퍼 스타일 수정 - 중앙 정렬 문제 해결 */
+.date-navigator .react-datepicker-wrapper,
+.date-navigator .react-datepicker__input-container {
+  display: block;
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+
+/* react-datepicker 팝업 위치 조정을 위한 CSS */
+.react-datepicker-popper {
+  z-index: 10;
+}
+
+/* 플로팅 액션 버튼 색상 유지 */
+.floating-action-button {
+  background-color: var(--color-primary);
+}
+
+.floating-action-button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.floating-action-button.open {
+  background-color: var(--color-danger);
+}
+
+.floating-action-button.open:hover {
+  background-color: var(--color-danger-dark);
+}
+
+/* 모바일 전용 수정 사항 */
+@media (max-width: 768px) {
+  .todo-container .table-responsive-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    width: 100%;
+    transform: translateZ(0);
+    max-height: 50vh;
+  }
+
+  .todo-container {
+    overflow: visible;
+    overflow-x: visible;
+  }
+}
+
+/* ============================================
+   다크 모드 명시적 오버라이드
+   ============================================ */
+
+/* 전체 컨테이너 다크 모드 */
+[data-theme='dark'] .todo-container {
+  background-color: var(--bg-primary);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+/* 제목 헤더 다크 모드 */
+[data-theme='dark'] .todo-title-header {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-separator);
+}
+
+[data-theme='dark'] .todo-title-header h2 {
+  color: var(--text-primary);
+}
+
+/* 사용자 정보 헤더 다크 모드 */
+[data-theme='dark'] .user-info-header {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .user-info-header span {
+  color: var(--text-primary);
+}
+
+/* 사용자 메뉴 아이콘 다크 모드 */
+[data-theme='dark'] .user-menu-icon {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .user-menu-icon:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* 드롭다운 메뉴 다크 모드 */
+[data-theme='dark'] .user-dropdown-menu {
+  background-color: var(--bg-primary);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-dropdown);
+}
+
+[data-theme='dark'] .user-dropdown-menu .dropdown-item {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .user-dropdown-menu .dropdown-item:hover {
+  background-color: var(--bg-hover);
+}
+
+[data-theme='dark'] .user-dropdown-menu .dropdown-divider {
+  border-top-color: var(--border-separator);
+}
+
+/* 날짜 네비게이터 다크 모드 */
+[data-theme='dark'] .date-navigator {
+  border-bottom-color: var(--border-separator);
+}
+
+[data-theme='dark'] .date-nav-btn {
+  background-color: transparent;
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .date-nav-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+[data-theme='dark'] .date-display {
+  color: var(--text-primary);
+  background-color: transparent;
+}
+
+[data-theme='dark'] .date-today-btn {
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .date-today-btn:hover {
+  background-color: var(--bg-hover);
+}
+
+/* ============================================
+   상세 검색 모달 스타일 (Round 2 Refinements)
+   ============================================ */
+
+/* 프리셋 버튼 컨테이너 */
+.preset-btn-container {
+  gap: 8px; /* 버튼 간격 증가 */
+}
+
+/* 프리셋 버튼 고정 크기 및 스타일 */
+.preset-btn {
+  width: 60px; /* 고정 너비 */
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-color: var(--border-medium);
+}
+
+.preset-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* 날짜 입력 필드 스타일 */
+.date-picker-input {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-medium) !important;
+}
+
+/* 검색어 입력 필드 스타일 */
+.search-input {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-medium) !important;
+}
+
+/* 검색 결과 컨테이너 */
+.search-result-container {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--border-radius-small);
+}
+
+/* 검색 결과 테이블 (Light/Dark 모드 대응) */
+.search-result-table {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  table-layout: fixed; /* 말줄임 처리를 위해 필수 */
+}
+
+.search-result-table thead th {
+  background-color: var(--bg-secondary); /* 헤더 배경 */
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--border-medium);
+  vertical-align: middle; /* 수직 정렬 */
+  padding: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.search-result-table tbody td {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle; /* 수직 정렬: 행 높이 맞춤 */
+  padding: 8px 10px;
+  height: 50px; /* 행 높이 고정 (선택 사항) */
+}
+
+.search-result-table tbody tr:hover td {
+  background-color: var(--bg-hover);
+}
+
+/* 테이블 컬럼 너비 제어 (반응형 고려) */
+.col-content {
+  width: 40%;
+}
+.col-date {
+  width: 25%;
+}
+.col-note {
+  width: 20%;
+}
+.col-action {
+  width: 15%;
+  text-align: center;
+}
+
+/* 이동 버튼 스타일 */
+.move-btn {
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  min-width: 44px;
+  line-height: 1.2;
+}
+
+/* 다크 모드에서의 추가 보정 (필요시) */
+[data-theme='dark'] .preset-btn {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .modal-content {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 모달 헤더/푸터 보더 색상 */
+.modal-header.border-secondary,
+.modal-footer.border-secondary {
+  border-color: var(--border-separator) !important;
+}
+
+/* 모달 푸터 버튼 정렬 (글로벌 강제 스타일 제거 후 필요한 것만 추가) */
+/* .modal-footer .btn { ... } 제거됨 */

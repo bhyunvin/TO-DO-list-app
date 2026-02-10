@@ -1,0 +1,7 @@
+[test]
+# Preloads입니다. 테스트 실행 전에 실행될 파일들
+preload = ["./src/setupTests.ts"]
+
+
+[test.env]
+# 테스트 환경 변수
