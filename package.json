@@ -23,6 +23,7 @@
     "bun": ">=1.0.0"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.10.0",
     "@types/multer": "^2.0.0",
     "concurrently": "^9.2.1",
     "nx": "^22.5.0",
@@ -40,5 +41,8 @@
   },
   "resolutions": {
     "baseline-browser-mapping": "^2.9.17"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.1"
   }
 }
