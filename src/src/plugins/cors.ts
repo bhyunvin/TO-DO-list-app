@@ -7,22 +7,22 @@ import { cors } from '@elysiajs/cors';
  * 개발 환경에서는 모든 출처를 허용
  */
 export const corsPlugin = new Elysia({ name: 'cors' }).use(
-    cors(
-        process.env.NODE_ENV === 'development'
-            ? {
-                  origin: true, // 개발 환경: 모든 출처 허용
-                  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-                  allowedHeaders: ['Content-Type', 'Authorization'],
-                  credentials: true,
-              }
-            : {
-                  origin: [
-                      'http://localhost:5173',
-                      process.env.FRONTEND_URL?.replace(/\/$/, '') || '',
-                  ].filter(Boolean),
-                  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-                  allowedHeaders: ['Content-Type', 'Authorization'],
-                  credentials: true,
-              },
-    ),
+  cors(
+    process.env.NODE_ENV === 'development'
+      ? {
+          origin: true, // 개발 환경: 모든 출처 허용
+          methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+          allowedHeaders: ['Content-Type', 'Authorization'],
+          credentials: true,
+        }
+      : {
+          origin: [
+            'http://localhost:5173',
+            process.env.FRONTEND_URL?.replace(/\/$/, '') || '',
+          ].filter(Boolean),
+          methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+          allowedHeaders: ['Content-Type', 'Authorization'],
+          credentials: true,
+        },
+  ),
 );
