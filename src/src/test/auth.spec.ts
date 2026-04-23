@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import { dataSource } from '../plugins/database';
 import { UserEntity } from '../features/user/user.entity';
 import { RefreshTokenEntity } from '../features/user/refresh-token.entity';
+import { ErrorResponse } from '../types/common';
 
 let api: ReturnType<typeof getApi>;
 
@@ -88,9 +89,9 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
 
     expect(response.status).toBe(200);
 
-    expect(data.accessToken).toBeDefined();
-    expect(data.user).toBeDefined();
-    expect(data.user.userEmail).toBe(TEST_EMAIL);
+    expect(data!.accessToken).toBeDefined();
+    expect(data!.user).toBeDefined();
+    expect(data!.user.userEmail).toBe(TEST_EMAIL);
 
     /*
      * 테스트 환경(Bun + Elysia Treaty)에서 Set-Cookie 헤더가
@@ -126,7 +127,7 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
 
     // 구현에 따라 401 Unauthorized 또는 400 Bad Request 반환
     expect(response.status).not.toBe(200);
-    
+
     // 에러 응답 객체 검증
     const errorBody = error?.value as unknown as ErrorResponse;
     expect(errorBody).toBeTruthy();
@@ -146,7 +147,7 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
     const { response, error } = await api.user.register.post(payload);
 
     expect(response.status).toBe(422);
-    
+
     // 에러 응답 객체 검증
     const errorBody = error?.value as unknown as ErrorResponse;
     expect(errorBody).toBeTruthy();
