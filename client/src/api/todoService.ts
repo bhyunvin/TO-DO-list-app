@@ -17,7 +17,6 @@ export interface UpdateTodoDto {
   files?: File[];
 }
 
-
 const todoService = {
   async getTodos(date: string) {
     // 할 일 목록 조회 (GET /)
