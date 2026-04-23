@@ -21,7 +21,11 @@ const TEST_NAME = '테스트유저';
  * DB 트랜잭션 지연 등으로 인해 400/401 에러가 발생할 경우,
  * 지정된 횟수만큼 재시도합니다.
  */
-async function tryLoginWithRetry(payload: any, maxRetries = 5, delayMs = 500) {
+async function tryLoginWithRetry(
+  payload: Record<string, unknown>,
+  maxRetries = 5,
+  delayMs = 500,
+) {
   for (let i = 0; i < maxRetries; i++) {
     const response = await api.user.login.post(payload);
 
@@ -69,8 +73,8 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
     console.log('회원가입 상태:', response.status);
 
     expect(response.status).toBe(201);
-    expect(data.userEmail).toBe(TEST_EMAIL);
-    expect(data.userName).toBe(TEST_NAME);
+    expect(data!.userEmail).toBe(TEST_EMAIL);
+    expect(data!.userName).toBe(TEST_NAME);
   });
 
   it('POST /user/login - 로그인 성공 및 토큰 발급', async () => {
@@ -124,7 +128,7 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
     expect(response.status).not.toBe(200);
     
     // 에러 응답 객체 검증
-    const errorBody = error?.value as any;
+    const errorBody = error?.value as unknown as ErrorResponse;
     expect(errorBody).toBeTruthy();
     expect(errorBody.success).toBe(false);
     expect(errorBody.message).toBeDefined();
@@ -144,7 +148,7 @@ describe('인증 컨트롤러 (E2E 테스트)', () => {
     expect(response.status).toBe(422);
     
     // 에러 응답 객체 검증
-    const errorBody = error?.value as any;
+    const errorBody = error?.value as unknown as ErrorResponse;
     expect(errorBody).toBeTruthy();
     expect(errorBody.success).toBe(false);
     expect(errorBody).toHaveProperty('errors');

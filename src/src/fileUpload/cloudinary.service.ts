@@ -7,6 +7,7 @@ import { env } from '../plugins/config';
 import toStream from 'buffer-to-stream';
 
 import { Logger } from '../utils/logger';
+import { EntityManager } from 'typeorm';
 
 export class CloudinaryService {
   private readonly logger = new Logger('CloudinaryService');
@@ -52,7 +53,7 @@ export class CloudinaryService {
   async deleteFile(
     publicId: string,
     resourceType: string = 'image',
-  ): Promise<any> {
+  ): Promise<unknown> {
     return cloudinary.uploader.destroy(publicId, {
       resource_type: resourceType,
     });
